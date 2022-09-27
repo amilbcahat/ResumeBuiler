@@ -21,20 +21,17 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 const jwt = require("jsonwebtoken");
-// const authRouter = require("./routes/authRoutes");
 const viewRouter = require("./routes/viewRoutes");
-// const postRouter = require("./routes/postRoutes");
-// const commentRouter = require("./routes/commentRoutes");
-// const categoryRouter = require("./routes/categoryRoutes");
+
 const resumeRouter = require("./routes/resumeRoutes");
 const userRouter = require("./routes/userRoutes");
-// app.use(expressLayouts);
-// const authController = require("./controllers/authController");
-// require("./utils/auth");
+const compression = require("compression");
 
-// app.set("view engine", "html");
-//RENDERS HTML FILES UNDER views folder
-// app.engine("html", cons.swig);
+app.use(cors());
+
+app.options("*", cors());
+
+app.use(compression());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 //1)Global Middlewares
@@ -83,22 +80,9 @@ app.use((req, res, next) => {
 //   next();
 // });
 
-// 3)ROUTES
-// app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
-
-// app.use("/api/v1/users", userRouter);
-// app.use(cors());
-
-// parse application/x-www-form-urlencoded
-// app.use(bodyParser.urlencoded({ extended: false }));
-
-// parse application/json
-// app.use(bodyParser.json());
-
-// For an actual app you should configure this with an experation time, better keys, proxy and secure
 app.use(
   cookieSession({
-    name: "acad-session",
+    name: "iResume-session",
     keys: ["key1", "key2"],
   })
 );
@@ -109,16 +93,13 @@ app.use(passport.session());
 
 app.use("/", viewRouter);
 
-// app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/users", userRouter);
-// app.use("/api/v1/auth", authRouter);
-// app.use("/api/v1/posts", postRouter);
-// app.use("/api/v1/comments", commentRouter);
-app.use("/api/v1/resumes", resumeRouter);
-// app.all("*", (req, res, next) => {
-//   next(new AppError(`Cant find ${req.originalUrl} on this server`));
-// });
 
-// app.use(globalErrorHandler);
+app.use("/api/v1/resumes", resumeRouter);
+app.all("*", (req, res, next) => {
+  next(new AppError(`Cant find ${req.originalUrl} on this server`));
+});
+
+app.use(globalErrorHandler);
 
 module.exports = app;
