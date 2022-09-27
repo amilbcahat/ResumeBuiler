@@ -55,7 +55,7 @@ exports.generatePdf = catchAsync(async (req, res, next) => {
   req.body.filename = filename;
 
   ejs.renderFile(
-    `${__dirname}/../views/restemp1.ejs`,
+    `${__dirname}/../views/restemplate1.ejs`,
     { resume: resume },
     (err, data) => {
       if (err) {
@@ -125,8 +125,9 @@ exports.editResume = catchAsync(async (req, res, next) => {
 
 exports.getdashboard = catchAsync(async (req, res, next) => {
   const resumes = await Resume.find();
+
   QRCode.toDataURL(
-    `${req.protocol}://${req.get("host")}/${req.originalUrl}`,
+    `${req.protocol}://${req.get("host")}/user/resume1/<%-resume.id%>`,
     function (err, url) {
       // console.log(`${req.protocol}://${req.get("host")}${req.originalUrl}`);
       res.status(200).render("dashboard.ejs", {

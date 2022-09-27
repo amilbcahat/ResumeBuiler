@@ -19,6 +19,7 @@ router
 
 router.route("/login").get(viewController.getLogin);
 router.route("/signup").get(viewController.getSignup);
+router.route("/logout").get(authController.logout);
 router.route("/createResume").get(viewController.createResume);
 router
   .route("/dashboard")
