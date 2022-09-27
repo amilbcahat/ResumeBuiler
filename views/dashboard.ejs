@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="dashboard.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        background: #e4e4e4 !important;
+      }
+      .header {
+        background: #ffffff;
+        box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+      }
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+      }
+      .userafterlogin {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+      }
+      .companyname {
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+        color: #3a3a3a;
+        align-self: center;
+      }
+      .myresume {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+        color: #565656;
+      }
+      .resumecard {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #ffffff;
+        border-radius: 5px;
+        padding: 16px 32px;
+      }
+      .edit {
+        padding: 7px 27px;
+        background: #9d2aff;
+        border-radius: 40px;
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+      .edit a {
+        text-decoration: none;
+        color: #fff;
+      }
+      .btns {
+        display: flex;
+        justify-content: space-between;
+      }
+      .delete {
+        background: #e3271b;
+        border-radius: 40px;
+        padding: 7px 27px;
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+      .delete a {
+        text-decoration: none;
+        color: #fff;
+      }
+      .share {
+        background: #1fe31b;
+        border-radius: 40px;
+        padding: 7px 27px;
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+      .share a {
+        text-decoration: none;
+        color: #fff;
+      }
+      /* Pop css */
+
+      .popup-container {
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+        transform: scale(1.3);
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(21, 17, 17, 0.61);
+        display: flex;
+        align-items: center;
+      }
+      .popup-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+      }
+      .popup-content p {
+        font-size: 17px;
+        padding: 10px;
+        line-height: 20px;
+      }
+      .popup-content a.close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        background: none;
+        padding: 0;
+        margin: 0;
+        text-decoration: none;
+      }
+
+      .popup-content a.close:hover {
+        color: #333;
+      }
+
+      .popup-content span:hover,
+      .popup-content span:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .popup-container:target {
+        visibility: visible;
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .popup-container h3 {
+        margin: 10px;
+      }
+    </style>
+    <noscript>Please enable JavaScript to view the</noscript>
+    <a href=""></a>
+  </head>
+  <body>
+    <div class="header">
+      <div class="container">
+        <div class="navbar">
+          <div>
+            <span
+              ><img
+                src="mainlogo.png"
+                alt="logo"
+                class="logo"
+                width="45px"
+                height="45px"
+                style="background: none"
+            /></span>
+            <span class="companyname">&nbsp;&nbsp;iResume</span>
+          </div>
+          <div class="userafterlogin">
+            <div><%- user.name %></div>
+            &nbsp;&nbsp;
+            <img
+              src="<%-user.photo%>"
+              class="userimage"
+              alt="userimage"
+              width="40px"
+              height="40px"
+              style="border-radius: 50%"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container pt-5">
+      <div class="contentarea">
+        <div class="myresume">My Resumes</div>
+        <!-- resume card Html that to be repeated -->
+        <% resumes.forEach(function(resume) { %>
+
+        <div class="resumecard my-3">
+          <div><%-resume.title%></div>
+          <div class="btns">
+            <div class="edit">
+              <a href="/editResume/<%- resume.id%>">Edit</a>
+            </div>
+            <div class="delete btn--delete"><a href="#">Delete</a></div>
+            <div class="popup-link share">
+              <a href="#popup1">Share</a>
+            </div>
+            <div id="popup1" class="popup-container text-center">
+              <div class="popup-content">
+                <a href="" class="close">&times;</a>
+                <h4>Title</h4>
+                <h6>Microsoft resume</h6>
+                <h4>Link</h4>
+                <h6>https://www.acadhut.com</h6>
+                <img
+                  src="<%- qr%>"
+                  width="150px"
+                  height="150px"
+                  alt="QR Code"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <% })%>
+      </div>
+    </div>
+    <script src="js/bundle.js"></script>
+  </body>
+</html>
