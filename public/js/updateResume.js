@@ -32,7 +32,7 @@ export const deleteResume = async (id) => {
     if (res.data.data.data === null) {
       showAlert("success", "Your Resume has been deleted successfully");
       window.setTimeout(() => {
-        location.assign(`/createResume`);
+        location.assign(`/dashboard`);
       }, 1500);
     }
   } catch (err) {
@@ -41,45 +41,63 @@ export const deleteResume = async (id) => {
 };
 
 export const editResume = async (
+  id,
   name,
   email,
   objective,
   achievements,
+  edudetails,
+  edudetails1,
+  edutimeperiod1,
+  edutimeperiod,
+  skill,
+  hobbies,
   phone,
   about,
-  edudetails,
-  skill,
-  project,
-  hobbies,
-  regards,
-  id
+  location,
+  project1,
+  project2,
+  photo,
+  designation,
+  linkedin
 ) => {
+  // console.log(data.get(name));
   try {
     const res = await axios({
-      method: "PATCH",
+      method: "POST",
+      config: { headers: { "Content-Type": "multipart/form-data" } },
       url: `/api/v1/resumes/${id}`,
       data: {
+        id,
         name,
         email,
         objective,
         achievements,
+        edudetails,
+        edudetails1,
+        edutimeperiod1,
+        edutimeperiod,
+        skill,
+        hobbies,
         phone,
         about,
-        edudetails,
-        skill,
-        project,
-        hobbies,
-        regards,
+        location,
+        project1,
+        project2,
+        photo,
+        designation,
+        linkedin,
       },
     });
 
     if (res.data.status === "success") {
       showAlert("success", "Your Resume has been updated successfully");
       window.setTimeout(() => {
-        location.assign(`/user/resume1/${id}`);
+        window.location.href = `/user/resume1/${id}`;
       }, 1500);
     }
   } catch (err) {
-    showAlert("error", err.response.data.message);
+    // showAlert("error", err.response.data.message);
+    console.log(err.response.data.message);
   }
 };

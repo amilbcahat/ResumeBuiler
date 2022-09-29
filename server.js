@@ -9,13 +9,13 @@ process.on("uncaughtException", (err) => {
 });
 
 dotenv.config({ path: "./config.env" });
-const DB =
-  "mongodb+srv://Acadhut:<PASSWORD>@cluster0.tnsg0hd.mongodb.net/Acadhut?retryWrites=true&w=majority".replace(
-    "<PASSWORD>",
-    process.env.DATABASE_PASSWORD
-  );
+// const DB =
+//   "mongodb+srv://Acadhut:<PASSWORD>@cluster0.tnsg0hd.mongodb.net/Acadhut?retryWrites=true&w=majority".replace(
+//     "<PASSWORD>",
+//     process.env.DATABASE_PASSWORD
+//   );
 
-// const DB = process.env.DATABASE;
+const DB = process.env.DATABASE_LOCAL;
 
 mongoose
   .connect(DB, {

@@ -17,7 +17,7 @@ exports.getRenderedTemplate1 = catchAsync(async (req, res, next) => {
     `${req.protocol}://${req.get("host")}/${req.originalUrl}`,
     function (err, url) {
       // console.log(`${req.protocol}://${req.get("host")}${req.originalUrl}`);
-      res.status(200).render("restemplate11.ejs", {
+      res.status(200).render("resume1.ejs", {
         title: "Your Resume",
         resume: resume,
         qr: url,
@@ -55,7 +55,7 @@ exports.generatePdf = catchAsync(async (req, res, next) => {
   req.body.filename = filename;
 
   ejs.renderFile(
-    `${__dirname}/../views/restemplate1.ejs`,
+    `${__dirname}/../views/resume1.ejs`,
     { resume: resume },
     (err, data) => {
       if (err) {
@@ -117,14 +117,24 @@ exports.createResume = catchAsync(async (req, res, next) => {
 exports.editResume = catchAsync(async (req, res, next) => {
   const resume = await Resume.findById(req.params.resumeId);
 
-  res.status(200).render("editResume.ejs", {
+  res.status(200).render("editResume1.ejs", {
+    title: "Edit Your resume",
+    resume: resume,
+  });
+});
+
+exports.deleteResume = catchAsync(async (req, res, next) => {
+  const resume = await Resume.findById(req.params.resumeId);
+
+  res.status(200).render("deleteResume.ejs", {
     title: "Edit Your resume",
     resume: resume,
   });
 });
 
 exports.getdashboard = catchAsync(async (req, res, next) => {
-  const resumes = await Resume.find();
+  // console.log(req.user.id);
+  const resumes = await Resume.find({ created_by: req.user.id });
 
   QRCode.toDataURL(
     `${req.protocol}://${req.get("host")}/user/resume1/<%-resume.id%>`,
@@ -134,6 +144,25 @@ exports.getdashboard = catchAsync(async (req, res, next) => {
         title: "Your Dashboard",
         resumes: resumes,
         qr: url,
+      });
+    }
+  );
+});
+
+exports.getResumeQR = catchAsync(async (req, res, next) => {
+  const resume = await Resume.findById(req.params.resumeId);
+  const link = `${req.protocol}://${req.get("host")}/user/resume1/${
+    req.params.resumeId
+  }`;
+  QRCode.toDataURL(
+    `${req.protocol}://${req.get("host")}/user/resume1/${req.params.resumeId}`,
+    function (err, url) {
+      // console.log(`${req.protocol}://${req.get("host")}${req.originalUrl}`);
+      res.status(200).render("qrcode.ejs", {
+        title: "Your QRcode",
+        resume: resume,
+        qr: url,
+        link,
       });
     }
   );

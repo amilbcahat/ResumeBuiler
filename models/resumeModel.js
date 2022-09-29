@@ -18,6 +18,9 @@ const resumeSchema = new mongoose.Schema(
     email: {
       type: String,
     },
+    photo: {
+      type: String,
+    },
     phone: {
       type: String,
     },
@@ -34,6 +37,15 @@ const resumeSchema = new mongoose.Schema(
       type: String,
     },
     edudetails: {
+      type: String,
+    },
+    edudetails1: {
+      type: String,
+    },
+    edutimeperiod: {
+      type: String,
+    },
+    edutimeperiod1: {
       type: String,
     },
     skill: {
@@ -55,6 +67,12 @@ const resumeSchema = new mongoose.Schema(
       type: String,
     },
     title: {
+      type: String,
+    },
+    designation: {
+      type: String,
+    },
+    location: {
       type: String,
     },
   },

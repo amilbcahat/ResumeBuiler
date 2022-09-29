@@ -1,12 +1,47 @@
 const Resume = require("./../models/resumeModel");
 const AppError = require("./../utils/appError");
 const catchAsync = require("./../utils/catchAsync");
+const sharp = require("sharp");
+const multer = require("multer");
+
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(new AppError("Not an image! Please upload only images.", 400), false);
+  }
+};
+
+const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
+
+exports.uploadUserPhoto = upload.single("photo");
+
+exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
+  if (!req.file) {
+    return next();
+  }
+  req.file.filename = `${req.body.name}-${req.user.id}-${Date.now()}.jpeg`;
+  await sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat("jpeg")
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/${req.file.filename}`);
+  next();
+});
 
 exports.createResume = catchAsync(async (req, res, next) => {
   if (!req.body.created_by || req.body.created_by) {
     req.body.created_by = req.user.id;
   }
-  console.log(req.body);
+  if (req.file) {
+    req.body.photo = req.file.filename;
+  }
+
+  console.log(req.file);
+
+  // console.log(req.body);
   const resume = await Resume.create(req.body);
 
   res.status(201).json({
@@ -48,6 +83,8 @@ exports.getAResume = catchAsync(async (req, res, next) => {
 });
 
 exports.updateResume = catchAsync(async (req, res, next) => {
+  console.log("request");
+  console.log(req.body);
   const resume = await Resume.findById(req.params.resumeId);
 
   if (!resume) {

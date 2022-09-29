@@ -5,7 +5,6 @@ const authController = require("./../controllers/authController");
 const viewController = require("./../controllers/viewController");
 
 const router = express.Router();
-// router.use(authController.protect);
 
 router
   .route("/user/resume1/:resumeId")
@@ -19,6 +18,9 @@ router
 
 router.route("/login").get(viewController.getLogin);
 router.route("/signup").get(viewController.getSignup);
+
+router.use(authController.protect);
+
 router.route("/logout").get(authController.logout);
 router.route("/createResume").get(viewController.createResume);
 router
@@ -26,4 +28,7 @@ router
   .get(authController.isLoggedIn, viewController.getdashboard);
 
 router.route("/editResume/:resumeId").get(viewController.editResume);
+router.route("/deleteResume/:resumeId").get(viewController.deleteResume);
+router.route("/qrcode/:resumeId").get(viewController.getResumeQR);
+
 module.exports = router;

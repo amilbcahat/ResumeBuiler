@@ -13,11 +13,11 @@ export const signup = async (name, email, password, passwordConfirm) => {
         passwordConfirm: passwordConfirm,
       },
     });
-
+    s;
     if (res.data.status === "success") {
       showAlert("success", "Signed up successfully");
       window.setTimeout(() => {
-        location.assign("/createResume");
+        location.assign("/dashboard");
       }, 1500);
     }
   } catch (err) {

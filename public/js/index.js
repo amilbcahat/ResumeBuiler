@@ -1,4 +1,6 @@
 import "@babel/polyfill";
+import axios from "axios";
+
 import { login, logout } from "./login";
 import { signup } from "./signup";
 import { createResume } from "./createResume";
@@ -46,26 +48,40 @@ if (resumeForm) {
     const about = document.getElementById("about").value;
     const edudetails = document.getElementById("edudetails").value;
     const achievements = document.getElementById("achievements").value;
-    const regards = document.getElementById("regards").value;
-
+    const project1 = document.getElementById("project1").value;
+    const project2 = document.getElementById("project2").value;
+    const edudetails1 = document.getElementById("edudetails1").value;
+    const edutimeperiod1 = document.getElementById("edutimeperiod1").value;
+    const edutimeperiod = document.getElementById("edutimeperiod").value;
+    const linkedin = document.getElementById("linkedin").value;
     const skill = document.getElementById("skill").value;
-    const project = document.getElementById("project").value;
-    const hobbies = document.getElementById("regards").value;
+    const hobbies = document.getElementById("hobbies").value;
+    const designation = document.getElementById("designation").value;
+    const location = document.getElementById("location").value;
+    const photo = document.getElementById("photo").files[0];
+    // console.log(photo);
 
-    // console.log('button clicked');
-    createResume(
-      name,
-      email,
-      objective,
-      achievements,
-      phone,
-      about,
-      edudetails,
-      skill,
-      project,
-      hobbies,
-      regards
-    );
+    const form = new FormData();
+    form.append("name", name);
+    form.append("email", email);
+    form.append("objective", objective);
+    form.append("phone", phone);
+    form.append("about", about);
+    form.append("edudetails", edudetails);
+    form.append("achievements", achievements);
+    form.append("project1", project1);
+    form.append("project2", project2);
+    form.append("edudetails1", edudetails1);
+    form.append("edutimeperiod1", edutimeperiod1);
+    form.append("edutimeperiod", edutimeperiod);
+    form.append("linkedin", linkedin);
+    form.append("skill", skill);
+    form.append("hobbies", hobbies);
+    form.append("designation", designation);
+    form.append("location", location);
+    form.append("photo", photo);
+    // console.log(form.get(name));
+    createResume(form, "data");
   });
 }
 
@@ -80,9 +96,10 @@ if (btnDelete) {
 }
 
 if (btnEdit) {
-  document.querySelector(".btn--edit").addEventListener("click", (e) => {
+  document.querySelector(".btn--edit").addEventListener("click", async (e) => {
     e.preventDefault();
     const id = document.querySelector(".right").dataset.id;
+    // console.log(id);
     // location.assign(`/editResume/${id}`);
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
@@ -91,23 +108,60 @@ if (btnEdit) {
     const about = document.getElementById("about").value;
     const edudetails = document.getElementById("edudetails").value;
     const achievements = document.getElementById("achievements").value;
-    const regards = document.getElementById("regards").value;
+    const project1 = document.getElementById("project1").value;
+    const project2 = document.getElementById("project2").value;
+    const edudetails1 = document.getElementById("edudetails1").value;
+    const edutimeperiod1 = document.getElementById("edutimeperiod1").value;
+    const edutimeperiod = document.getElementById("edutimeperiod").value;
+    const linkedin = document.getElementById("linkedin").value;
     const skill = document.getElementById("skill").value;
-    const project = document.getElementById("project").value;
-    const hobbies = document.getElementById("regards").value;
+    const hobbies = document.getElementById("hobbies").value;
+    const designation = document.getElementById("designation").value;
+    const location = document.getElementById("location").value;
+    const photo = document.getElementById("photo").files[0];
+
+    console.log(hobbies);
+    // const form = new FormData();
+    // form.append("name", name);
+    // form.append("email", email);
+    // form.append("objective", objective);
+    // form.append("phone", phone);
+    // form.append("about", about);
+    // form.append("edudetails", edudetails);
+    // form.append("achievements", achievements);
+    // form.append("project1", project1);
+    // form.append("project2", project2);
+    // form.append("edudetails1", edudetails1);
+    // form.append("edutimeperiod1", edutimeperiod1);
+    // form.append("edutimeperiod", edutimeperiod);
+    // form.append("linkedin", linkedin);
+    // form.append("skill", skill);
+    // form.append("hobbies", hobbies);
+    // form.append("designation", designation);
+    // form.append("location", location);
+    // form.append("photo", photo);
+    console.log(hobbies);
+    // console.log(form.get(hobbies));
     editResume(
+      id,
       name,
       email,
       objective,
       achievements,
+      edudetails,
+      edudetails1,
+      edutimeperiod1,
+      edutimeperiod,
+      skill,
+      hobbies,
       phone,
       about,
-      edudetails,
-      skill,
-      project,
-      hobbies,
-      regards,
-      id
+      location,
+      project1,
+      project2,
+      photo,
+      designation,
+      linkedin
     );
   });
 }

@@ -189,17 +189,21 @@
         <% resumes.forEach(function(resume) { %>
 
         <div class="resumecard my-3">
+          <div class="right" data-id="<%- resume.id%>"></div>
+
           <div><%-resume.title%></div>
           <div class="btns">
             <div class="edit">
               <a href="/editResume/<%- resume.id%>">Edit</a>
             </div>
-            <div class="btn--delete delete"><a href="#">Delete</a></div>
+            <div id="" class="delete">
+              <a href="/deleteResume/<%- resume.id%>">Delete</a>
+            </div>
             <div class="popup-link share">
               <a href="#popup1">Share</a>
             </div>
             <div id="popup1" class="popup-container text-center">
-              <div class="popup-content">
+              <!-- <div class="popup-content">
                 <a href="" class="close">&times;</a>
                 <h4>Title</h4>
                 <h6><%-resume.title%></h6>
@@ -211,7 +215,8 @@
                   height="150px"
                   alt="QR Code"
                 />
-              </div>
+              </div> -->
+              <iframe src="/qrcode/<%-resume.id%>" title="Details"></iframe>
             </div>
           </div>
         </div>
